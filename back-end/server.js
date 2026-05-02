@@ -1,25 +1,36 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
 const path = require('path');
 const connectDB = require('./config/db');
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+  console.log('Uploads directory created');
+} else {
+  console.log('Uploads directory already exists');
+}
 
 connectDB();
 
 const app = express();
 
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-  credentials: true,
-};
+// 1. CORS Configuration (MUST be before routes)
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 
-app.use(cors(corsOptions));
+// 2. Parser Middleware
 app.use(express.json());
 
-// Serve static files from the 'uploads' directory
+// 3. Static Files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Routes
+// 4. Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/departments', require('./routes/departmentRoutes'));
 app.use('/api/applicants', require('./routes/applicantRoutes'));
