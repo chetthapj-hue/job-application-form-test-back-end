@@ -2,7 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const Department = require('./models/Department');
-const Admin = require('./models/Admin');
+const User = require('./models/User');
 const Applicant = require('./models/Applicant');
 
 const seedDatabase = async () => {
@@ -13,8 +13,8 @@ const seedDatabase = async () => {
 
     // Clear existing data
     await Department.deleteMany({});
-    await Admin.deleteMany({});
-    await Applicant.deleteMany({}); // Optional: clear applicants too for a fresh start
+    await User.deleteMany({});
+    await Applicant.deleteMany({}); 
     console.log('Cleared existing data.');
 
     // Seed Departments
@@ -31,15 +31,16 @@ const seedDatabase = async () => {
 
     // Seed Admin
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('admin1234', salt);
+    const hashedPassword = await bcrypt.hash('123456', salt);
 
-    const admin = new Admin({
+    const admin = new User({
       email: 'admin@example.com',
-      password: hashedPassword
+      password: hashedPassword,
+      role: 'admin'
     });
 
     await admin.save();
-    console.log('Admin user seeded (admin@example.com / admin1234).');
+    console.log('Admin user seeded (admin@example.com / 123456).');
 
     console.log('Database seeding completed successfully!');
     process.exit(0);

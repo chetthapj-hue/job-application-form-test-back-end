@@ -1,17 +1,17 @@
 const bcrypt = require('bcryptjs');
-const Admin = require('../models/Admin');
+const User = require('../models/User');
 
 const seedAdmin = async () => {
   try {
-    const adminExists = await Admin.findOne({ email: 'admin@example.com' });
+    const adminExists = await User.findOne({ email: 'admin@example.com' });
     
     if (!adminExists) {
       const hashedPassword = await bcrypt.hash('123456', 10);
       
-      const admin = new Admin({
+      const admin = new User({
         email: 'admin@example.com',
         password: hashedPassword,
-        role: 'admin' // Added role as requested
+        role: 'admin'
       });
       
       await admin.save();

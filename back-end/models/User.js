@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const adminSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   email: { 
     type: String, 
     required: [true, 'Email is required'], 
@@ -15,8 +15,9 @@ const adminSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: 'admin'
+    enum: ['admin', 'user'],
+    default: 'user'
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Admin', adminSchema);
+module.exports = mongoose.model('User', userSchema);
