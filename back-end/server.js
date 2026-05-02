@@ -4,6 +4,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const connectDB = require('./config/db');
+const seedAdmin = require('./utils/seedAdmin');
 
 // Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -14,7 +15,9 @@ if (!fs.existsSync(uploadsDir)) {
   console.log('Uploads directory already exists');
 }
 
-connectDB();
+connectDB().then(() => {
+  seedAdmin();
+});
 
 const app = express();
 
