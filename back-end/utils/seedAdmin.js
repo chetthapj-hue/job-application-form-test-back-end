@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const Admin = require('./models/Admin');
+const Admin = require('../models/Admin');
 
 const seedAdmin = async () => {
   try {
@@ -10,7 +10,8 @@ const seedAdmin = async () => {
       
       const admin = new Admin({
         email: 'admin@example.com',
-        password: hashedPassword
+        password: hashedPassword,
+        role: 'admin' // Added role as requested
       });
       
       await admin.save();

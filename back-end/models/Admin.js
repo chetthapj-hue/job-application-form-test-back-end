@@ -13,6 +13,10 @@ const adminSchema = new mongoose.Schema({
     type: String, 
     required: [true, 'Password is required'] 
   },
+  role: {
+    type: String,
+    default: 'admin'
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Admin', adminSchema);
