@@ -68,6 +68,8 @@ router.post('/', (req, res) => {
         return res.status(400).json({ message: 'Resume is required.' });
       }
 
+      const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
+
       const applicantData = {
         firstName,
         lastName,
@@ -75,8 +77,8 @@ router.post('/', (req, res) => {
         phone,
         department,
         position,
-        resume: req.files['resume'][0].filename, // Store only the filename
-        transcript: req.files['transcript'] ? req.files['transcript'][0].filename : null,
+        resume: `${baseUrl}/uploads/${req.files['resume'][0].filename}`,
+        transcript: req.files['transcript'] ? `${baseUrl}/uploads/${req.files['transcript'][0].filename}` : null,
         status: 'Pending'
       };
 
